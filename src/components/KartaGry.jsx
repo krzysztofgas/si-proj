@@ -1,3 +1,5 @@
+import Odznaka from "./Odznaka.jsx";
+
 function KartaGry({ gra }) {
   return (
     <div className="karta-gry">
@@ -7,7 +9,7 @@ function KartaGry({ gra }) {
         Gracze: {gra.minGraczy}–{gra.maxGraczy}
       </p>
       <p>Ocena: {gra.ocena}/10</p>
-      {gra.posiadana && <span className="odznaka">Posiadana</span>}
+      {gra.posiadana && <Odznaka tekst="Posiadana" wariant="posiadana" />}
     </div>
   );
 }
