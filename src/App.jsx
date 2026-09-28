@@ -15,9 +15,16 @@ function App() {
   const [poleSortowania, setPoleSortowania] = useState("tytul");
   const [kierunekSortowania, setKierunekSortowania] = useState("rosnaco");
 
-  const liczbaStron = Math.ceil(gry.length / GIER_NA_STRONE);
+  const gryPrzefiltrowane = gry.filter((gra) =>
+    gra.tytul.toLowerCase().includes(szukanaFraza.toLowerCase()),
+  );
+
+  const liczbaStron = Math.ceil(gryPrzefiltrowane.length / GIER_NA_STRONE);
   const poczatekWycinka = (aktualnaStrona - 1) * GIER_NA_STRONE;
-  const gryNaStronie = gry.slice(poczatekWycinka, poczatekWycinka + GIER_NA_STRONE);
+  const gryNaStronie = gryPrzefiltrowane.slice(
+    poczatekWycinka,
+    poczatekWycinka + GIER_NA_STRONE,
+  );
 
   return (
     <div>
