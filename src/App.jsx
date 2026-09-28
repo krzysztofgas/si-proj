@@ -19,9 +19,22 @@ function App() {
     .filter((gra) => gra.tytul.toLowerCase().includes(szukanaFraza.toLowerCase()))
     .filter((gra) => wybranaKategoria === "wszystkie" || gra.kategoria === wybranaKategoria);
 
-  const liczbaStron = Math.ceil(gryPrzefiltrowane.length / GIER_NA_STRONE);
+  const gryPosortowane = [...gryPrzefiltrowane].sort((graA, graB) => {
+    const wartoscA = graA[poleSortowania];
+    const wartoscB = graB[poleSortowania];
+
+    if (typeof wartoscA === "string") {
+      const wynik = wartoscA.localeCompare(wartoscB);
+      return kierunekSortowania === "rosnaco" ? wynik : -wynik;
+    }
+
+    const wynik = wartoscA - wartoscB;
+    return kierunekSortowania === "rosnaco" ? wynik : -wynik;
+  });
+
+  const liczbaStron = Math.ceil(gryPosortowane.length / GIER_NA_STRONE);
   const poczatekWycinka = (aktualnaStrona - 1) * GIER_NA_STRONE;
-  const gryNaStronie = gryPrzefiltrowane.slice(
+  const gryNaStronie = gryPosortowane.slice(
     poczatekWycinka,
     poczatekWycinka + GIER_NA_STRONE,
   );
