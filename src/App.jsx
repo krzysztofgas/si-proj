@@ -3,6 +3,7 @@ import poczatkoweGry from "./data/poczatkoweGry.js";
 import ListaGier from "./components/ListaGier.jsx";
 import Paginacja from "./components/Paginacja.jsx";
 import PanelNarzedzi from "./components/PanelNarzedzi.jsx";
+import PustaLista from "./components/PustaLista.jsx";
 import "./App.css";
 
 const GIER_NA_STRONE = 5;
@@ -32,6 +33,12 @@ function App() {
 
   function zmienKierunekSortowania(nowyKierunek) {
     setKierunekSortowania(nowyKierunek);
+    setAktualnaStrona(1);
+  }
+
+  function wyczyscFiltry() {
+    setSzukanaFraze("");
+    setWybranaKategorie("wszystkie");
     setAktualnaStrona(1);
   }
 
@@ -72,7 +79,11 @@ function App() {
         kierunekSortowania={kierunekSortowania}
         ustawKierunekSortowania={zmienKierunekSortowania}
       />
-      <ListaGier gry={gryNaStronie} />
+      {gryNaStronie.length === 0 ? (
+        <PustaLista wyczyscFiltry={wyczyscFiltry} />
+      ) : (
+        <ListaGier gry={gryNaStronie} />
+      )}
       <Paginacja
         aktualnaStrona={aktualnaStrona}
         liczbaStron={liczbaStron}
