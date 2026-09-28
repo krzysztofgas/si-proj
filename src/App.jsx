@@ -15,6 +15,26 @@ function App() {
   const [poleSortowania, setPoleSortowania] = useState("tytul");
   const [kierunekSortowania, setKierunekSortowania] = useState("rosnaco");
 
+  function zmienSzukanaFraze(nowaFraza) {
+    setSzukanaFraze(nowaFraza);
+    setAktualnaStrona(1);
+  }
+
+  function zmienWybranaKategorie(nowaKategoria) {
+    setWybranaKategorie(nowaKategoria);
+    setAktualnaStrona(1);
+  }
+
+  function zmienPoleSortowania(nowePole) {
+    setPoleSortowania(nowePole);
+    setAktualnaStrona(1);
+  }
+
+  function zmienKierunekSortowania(nowyKierunek) {
+    setKierunekSortowania(nowyKierunek);
+    setAktualnaStrona(1);
+  }
+
   const gryPrzefiltrowane = gry
     .filter((gra) => gra.tytul.toLowerCase().includes(szukanaFraza.toLowerCase()))
     .filter((gra) => wybranaKategoria === "wszystkie" || gra.kategoria === wybranaKategoria);
@@ -44,13 +64,13 @@ function App() {
       <h1>Kolekcja planszówek</h1>
       <PanelNarzedzi
         szukanaFraza={szukanaFraza}
-        ustawSzukanaFraze={setSzukanaFraze}
+        ustawSzukanaFraze={zmienSzukanaFraze}
         wybranaKategoria={wybranaKategoria}
-        ustawWybranaKategorie={setWybranaKategorie}
+        ustawWybranaKategorie={zmienWybranaKategorie}
         poleSortowania={poleSortowania}
-        ustawPoleSortowania={setPoleSortowania}
+        ustawPoleSortowania={zmienPoleSortowania}
         kierunekSortowania={kierunekSortowania}
-        ustawKierunekSortowania={setKierunekSortowania}
+        ustawKierunekSortowania={zmienKierunekSortowania}
       />
       <ListaGier gry={gryNaStronie} />
       <Paginacja
