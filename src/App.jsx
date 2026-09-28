@@ -1,6 +1,6 @@
 import { useState } from "react";
 import poczatkoweGry from "./data/poczatkoweGry.js";
-import KartaGry from "./components/KartaGry.jsx";
+import ListaGier from "./components/ListaGier.jsx";
 import "./App.css";
 
 function App() {
@@ -9,8 +9,7 @@ function App() {
   return (
     <div>
       <h1>Kolekcja planszówek</h1>
-      <KartaGry gra={gry[0]} />
-      <KartaGry gra={gry[1]} />
+      <ListaGier gry={gry} />
     </div>
   );
 }
