@@ -1,16 +1,43 @@
-# React + Vite
+# Kolekcja planszówek
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikacja CRUD w czystym Reactcie (bez zewnętrznych bibliotek) do zarządzania grami planszowymi.
 
-Currently, two official plugins are available:
+## Uruchomienie
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Aplikacja odpala się pod adresem `http://localhost:5173`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `npm run build` – budowanie projektu
+- `npm run lint` – sprawdzanie kodu linterem
 
-## Expanding the ESLint configuration
+## Struktura komponentów
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `App` – główny komponent ze stanem gier, filtrów i modali
+  - `PanelNarzedzi` – szukanie po tytule, filtrowanie kategorią i sortowanie
+  - `ListaGier` – lista kart gier
+    - `KartaGry` – pojedyncza gra z danymi oraz przyciskami Edytuj i Usuń
+      - `Odznaka` – etykietka pokazująca trudność i posiadanie gry
+  - `Paginacja` – paginacja (max 5 gier na stronę, przyciski poprzednia/następna)
+  - `PustaLista` – komunikat, gdy nic nie pasuje do filtrów + reset
+  - `Modal` – wspólne okno modalne (użyte do usuwania oraz formularza)
+    - `FormularzGry` – ten sam formularz do dodawania i edycji (obsługuje input tekstowy, select, radio, checkbox, liczby i walidację)
+
+## Schemat danych
+
+Początkowe gry są w `src/data/poczatkoweGry.js`:
+
+| Pole        | Typ     | Przykład         |
+| ----------- | ------- | ---------------- |
+| `id`        | number  | `1`              |
+| `tytul`     | string  | `"Katan"`        |
+| `kategoria` | string  | `"strategiczna"` |
+| `trudnosc`  | string  | `"sredni"`       |
+| `posiadana` | boolean | `true`           |
+| `ocena`     | number  | `8`              |
+| `minGraczy` | number  | `3`              |
+| `maxGraczy` | number  | `4`              |
+| `rok`       | number  | `1995`           |
