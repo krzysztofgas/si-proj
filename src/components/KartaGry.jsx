@@ -1,6 +1,6 @@
 import Odznaka from "./Odznaka.jsx";
 
-function KartaGry({ gra, naUsun }) {
+function KartaGry({ gra, naEdytuj, naUsun }) {
   return (
     <div className="karta-gry">
       <h3>{gra.tytul}</h3>
@@ -12,6 +12,9 @@ function KartaGry({ gra, naUsun }) {
       {gra.posiadana && <Odznaka tekst="Posiadana" wariant="posiadana" />}
 
       <div className="karta-akcje">
+        <button type="button" onClick={() => naEdytuj(gra)}>
+          Edytuj
+        </button>
         <button
           type="button"
           className="przycisk-niebezpieczny"

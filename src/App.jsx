@@ -22,6 +22,7 @@ function App() {
   const [graDoUsuniecia, setGraDoUsuniecia] = useState(null);
 
   const [czyDodawanie, setCzyDodawanie] = useState(false);
+  const [graDoEdycji, setGraDoEdycji] = useState(null);
 
   function zmienSzukanaFraze(nowaFraza) {
     setSzukanaFraze(nowaFraza);
@@ -72,7 +73,8 @@ function App() {
   });
 
   const liczbaStron = Math.ceil(gryPosortowane.length / GIER_NA_STRONE);
-  const poczatekWycinka = (aktualnaStrona - 1) * GIER_NA_STRONE;
+  const biezacaStrona = Math.min(aktualnaStrona, Math.max(1, liczbaStron));
+  const poczatekWycinka = (biezacaStrona - 1) * GIER_NA_STRONE;
   const gryNaStronie = gryPosortowane.slice(
     poczatekWycinka,
     poczatekWycinka + GIER_NA_STRONE,
@@ -82,15 +84,6 @@ function App() {
     setGry((poprzednieGry) =>
       poprzednieGry.filter((gra) => gra.id !== graDoUsuniecia.id),
     );
-
-    const nowaLiczbaStron = Math.max(
-      1,
-      Math.ceil((gryPosortowane.length - 1) / GIER_NA_STRONE),
-    );
-    if (aktualnaStrona > nowaLiczbaStron) {
-      setAktualnaStrona(nowaLiczbaStron);
-    }
-
     setGraDoUsuniecia(null);
   }
 
@@ -103,7 +96,21 @@ function App() {
       const noweId = Math.max(0, ...poprzednieGry.map((gra) => gra.id)) + 1;
       return [...poprzednieGry, { ...daneGry, id: noweId }];
     });
+    zamknijFormularz();
+  }
+
+  function edytujGre(daneGry) {
+    setGry((poprzednieGry) =>
+      poprzednieGry.map((gra) =>
+        gra.id === graDoEdycji.id ? { ...daneGry, id: graDoEdycji.id } : gra,
+      ),
+    );
+    zamknijFormularz();
+  }
+
+  function zamknijFormularz() {
     setCzyDodawanie(false);
+    setGraDoEdycji(null);
   }
 
   return (
@@ -132,11 +139,15 @@ function App() {
       {gryPosortowane.length === 0 ? (
         <PustaLista wyczyscFiltry={wyczyscFiltry} />
       ) : (
-        <ListaGier gry={gryNaStronie} naUsun={setGraDoUsuniecia} />
+        <ListaGier
+          gry={gryNaStronie}
+          naEdytuj={setGraDoEdycji}
+          naUsun={setGraDoUsuniecia}
+        />
       )}
 
       <Paginacja
-        aktualnaStrona={aktualnaStrona}
+        aktualnaStrona={biezacaStrona}
         liczbaStron={liczbaStron}
         naZmianeStrony={setAktualnaStrona}
       />
@@ -162,12 +173,16 @@ function App() {
         </Modal>
       )}
 
-      {czyDodawanie && (
-        <Modal tytul="Nowa gra" zamknij={() => setCzyDodawanie(false)}>
+      {(czyDodawanie || graDoEdycji) && (
+        <Modal
+          tytul={graDoEdycji ? "Edycja gry" : "Nowa gra"}
+          zamknij={zamknijFormularz}
+        >
           <FormularzGry
-            naZapisz={dodajGre}
-            naAnuluj={() => setCzyDodawanie(false)}
-            tekstPrzycisku="Dodaj grę"
+            poczatkoweDane={graDoEdycji}
+            naZapisz={graDoEdycji ? edytujGre : dodajGre}
+            naAnuluj={zamknijFormularz}
+            tekstPrzycisku={graDoEdycji ? "Zapisz zmiany" : "Dodaj grę"}
           />
         </Modal>
       )}
