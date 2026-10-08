@@ -1,3 +1,8 @@
+import { KATEGORIE, POLA_SORTOWANIA } from "../data/slowniki.js";
+
+// Panel nad listą: wyszukiwarka, filtr kategorii i sortowanie.
+// Komponent nie trzyma własnego stanu – wartości i funkcje zmieniające
+// dostaje z App przez propsy (inputy kontrolowane).
 function PanelNarzedzi({
   szukanaFraza,
   ustawSzukanaFraze,
@@ -22,22 +27,25 @@ function PanelNarzedzi({
         onChange={(zdarzenie) => ustawWybranaKategorie(zdarzenie.target.value)}
       >
         <option value="wszystkie">Wszystkie kategorie</option>
-        <option value="strategiczna">Strategiczna</option>
-        <option value="imprezowa">Imprezowa</option>
-        <option value="kooperacyjna">Kooperacyjna</option>
-        <option value="karciana">Karciana</option>
-        <option value="rodzinna">Rodzinna</option>
+        {KATEGORIE.map((kategoria) => (
+          <option key={kategoria.wartosc} value={kategoria.wartosc}>
+            {kategoria.etykieta}
+          </option>
+        ))}
       </select>
 
       <select
         value={poleSortowania}
         onChange={(zdarzenie) => ustawPoleSortowania(zdarzenie.target.value)}
       >
-        <option value="tytul">Sortuj po tytule</option>
-        <option value="ocena">Sortuj po ocenie</option>
-        <option value="rok">Sortuj po roku</option>
+        {POLA_SORTOWANIA.map((pole) => (
+          <option key={pole.wartosc} value={pole.wartosc}>
+            {pole.etykieta}
+          </option>
+        ))}
       </select>
 
+      {/* Przycisk przełącza kierunek sortowania na przeciwny */}
       <button
         type="button"
         onClick={() =>
