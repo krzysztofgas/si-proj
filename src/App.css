@@ -127,3 +127,20 @@ fieldset.formularz-pole {
   gap: 6px;
   cursor: pointer;
 }
+
+.przycisk-glowny:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pole-blad {
+  border: 1px solid #c62828;
+  border-radius: 4px;
+  outline-color: #c62828;
+}
+
+.formularz-blad {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #c62828;
+}
