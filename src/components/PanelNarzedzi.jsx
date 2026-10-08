@@ -41,7 +41,9 @@ function PanelNarzedzi({
       <button
         type="button"
         onClick={() =>
-          ustawKierunekSortowania(kierunekSortowania === "rosnaco" ? "malejaco" : "rosnaco")
+          ustawKierunekSortowania(
+            kierunekSortowania === "rosnaco" ? "malejaco" : "rosnaco",
+          )
         }
       >
         {kierunekSortowania === "rosnaco" ? "Rosnaco" : "Malejaco"}

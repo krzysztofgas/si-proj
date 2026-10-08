@@ -43,8 +43,13 @@ function App() {
   }
 
   const gryPrzefiltrowane = gry
-    .filter((gra) => gra.tytul.toLowerCase().includes(szukanaFraza.toLowerCase()))
-    .filter((gra) => wybranaKategoria === "wszystkie" || gra.kategoria === wybranaKategoria);
+    .filter((gra) =>
+      gra.tytul.toLowerCase().includes(szukanaFraza.toLowerCase()),
+    )
+    .filter(
+      (gra) =>
+        wybranaKategoria === "wszystkie" || gra.kategoria === wybranaKategoria,
+    );
 
   const gryPosortowane = [...gryPrzefiltrowane].sort((graA, graB) => {
     const wartoscA = graA[poleSortowania];
