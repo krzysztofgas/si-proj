@@ -11,48 +11,57 @@ function PanelNarzedzi({
   ustawKierunekSortowania,
 }) {
   return (
-    <div className="panel-narzedzi">
-      <input
-        type="text"
-        placeholder="Szukaj po tytule"
-        value={szukanaFraza}
-        onChange={(zdarzenie) => ustawSzukanaFraze(zdarzenie.target.value)}
-      />
+    <section className="panel-narzedzi" aria-label="Narzędzia wyszukiwania i sortowania">
+      <div className="panel-pole">
+        <input
+          type="text"
+          placeholder="Szukaj po tytule..."
+          value={szukanaFraza}
+          onChange={(zdarzenie) => ustawSzukanaFraze(zdarzenie.target.value)}
+        />
+      </div>
 
-      <select
-        value={wybranaKategoria}
-        onChange={(zdarzenie) => ustawWybranaKategorie(zdarzenie.target.value)}
-      >
-        <option value="wszystkie">Wszystkie kategorie</option>
-        {KATEGORIE.map((kategoria) => (
-          <option key={kategoria.wartosc} value={kategoria.wartosc}>
-            {kategoria.etykieta}
-          </option>
-        ))}
-      </select>
+      <div className="panel-pole">
+        <select
+          value={wybranaKategoria}
+          onChange={(zdarzenie) => ustawWybranaKategorie(zdarzenie.target.value)}
+        >
+          <option value="wszystkie">Wszystkie kategorie</option>
+          {KATEGORIE.map((kategoria) => (
+            <option key={kategoria.wartosc} value={kategoria.wartosc}>
+              {kategoria.etykieta}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <select
-        value={poleSortowania}
-        onChange={(zdarzenie) => ustawPoleSortowania(zdarzenie.target.value)}
-      >
-        {POLA_SORTOWANIA.map((pole) => (
-          <option key={pole.wartosc} value={pole.wartosc}>
-            {pole.etykieta}
-          </option>
-        ))}
-      </select>
+      <div className="panel-pole">
+        <select
+          value={poleSortowania}
+          onChange={(zdarzenie) => ustawPoleSortowania(zdarzenie.target.value)}
+        >
+          {POLA_SORTOWANIA.map((pole) => (
+            <option key={pole.wartosc} value={pole.wartosc}>
+              {pole.etykieta}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <button
-        type="button"
-        onClick={() =>
-          ustawKierunekSortowania(
-            kierunekSortowania === "rosnaco" ? "malejaco" : "rosnaco",
-          )
-        }
-      >
-        {kierunekSortowania === "rosnaco" ? "Rosnaco" : "Malejaco"}
-      </button>
-    </div>
+      <div className="panel-pole">
+        <button
+          type="button"
+          className="przycisk-drugorzedny przycisk-kierunek"
+          onClick={() =>
+            ustawKierunekSortowania(
+              kierunekSortowania === "rosnaco" ? "malejaco" : "rosnaco",
+            )
+          }
+        >
+          {kierunekSortowania === "rosnaco" ? "Rosnąco ↑" : "Malejąco ↓"}
+        </button>
+      </div>
+    </section>
   );
 }
 

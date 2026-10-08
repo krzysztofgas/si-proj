@@ -1,9 +1,9 @@
 function PustaLista({ wyczyscFiltry }) {
   return (
     <div className="pusta-lista">
-      <p>Brak gier spelniajacych kryteria.</p>
-      <button type="button" onClick={wyczyscFiltry}>
-        Wyczysc filtry
+      <p>Brak gier spełniających kryteria.</p>
+      <button type="button" className="przycisk-glowny" onClick={wyczyscFiltry}>
+        Wyczyść filtry
       </button>
     </div>
   );
