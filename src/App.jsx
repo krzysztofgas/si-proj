@@ -5,6 +5,7 @@ import Paginacja from "./components/Paginacja.jsx";
 import PanelNarzedzi from "./components/PanelNarzedzi.jsx";
 import PustaLista from "./components/PustaLista.jsx";
 import Modal from "./components/Modal.jsx";
+import FormularzGry from "./components/FormularzGry.jsx";
 import "./App.css";
 
 const GIER_NA_STRONE = 5;
@@ -22,6 +23,9 @@ function App() {
 
   // Gra czekająca na potwierdzenie usunięcia. null = modal zamknięty.
   const [graDoUsuniecia, setGraDoUsuniecia] = useState(null);
+
+  // Czy otwarty jest modal z formularzem dodawania nowej gry.
+  const [czyDodawanie, setCzyDodawanie] = useState(false);
 
   // Każda zmiana kryteriów wraca na 1. stronę, żeby użytkownik
   // nie wylądował na stronie, która po filtrowaniu już nie istnieje.
@@ -107,9 +111,29 @@ function App() {
     setGraDoUsuniecia(null);
   }
 
+  // Dodawanie: nowa gra dostaje id o 1 większe od największego istniejącego
+  // i trafia na koniec nowej tablicy. Liczba stron przeliczy się sama,
+  // bo jest wyliczana z długości listy przy każdym renderze.
+  function dodajGre(daneGry) {
+    setGry((poprzednieGry) => {
+      const noweId = Math.max(0, ...poprzednieGry.map((gra) => gra.id)) + 1;
+      return [...poprzednieGry, { ...daneGry, id: noweId }];
+    });
+    setCzyDodawanie(false);
+  }
+
   return (
     <div>
-      <h1>Kolekcja planszówek</h1>
+      <header className="naglowek-aplikacji">
+        <h1>Kolekcja planszówek</h1>
+        <button
+          type="button"
+          className="przycisk-glowny"
+          onClick={() => setCzyDodawanie(true)}
+        >
+          + Dodaj grę
+        </button>
+      </header>
       <PanelNarzedzi
         szukanaFraza={szukanaFraza}
         ustawSzukanaFraze={zmienSzukanaFraze}
@@ -154,6 +178,17 @@ function App() {
               Usuń
             </button>
           </div>
+        </Modal>
+      )}
+
+      {/* Kontekst nr 2 modala: formularz dodawania gry */}
+      {czyDodawanie && (
+        <Modal tytul="Nowa gra" zamknij={() => setCzyDodawanie(false)}>
+          <FormularzGry
+            naZapisz={dodajGre}
+            naAnuluj={() => setCzyDodawanie(false)}
+            tekstPrzycisku="Dodaj grę"
+          />
         </Modal>
       )}
     </div>
