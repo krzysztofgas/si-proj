@@ -4,18 +4,27 @@ import ListaGier from "./components/ListaGier.jsx";
 import Paginacja from "./components/Paginacja.jsx";
 import PanelNarzedzi from "./components/PanelNarzedzi.jsx";
 import PustaLista from "./components/PustaLista.jsx";
+import Modal from "./components/Modal.jsx";
 import "./App.css";
 
 const GIER_NA_STRONE = 5;
 
 function App() {
-  const [gry] = useState(poczatkoweGry);
+  // Główne dane aplikacji – lista gier trzymana w stanie Reacta.
+  const [gry, setGry] = useState(poczatkoweGry);
+
+  // Stan widoku: strona, wyszukiwanie, filtr i sortowanie.
   const [aktualnaStrona, setAktualnaStrona] = useState(1);
   const [szukanaFraza, setSzukanaFraze] = useState("");
   const [wybranaKategoria, setWybranaKategorie] = useState("wszystkie");
   const [poleSortowania, setPoleSortowania] = useState("tytul");
   const [kierunekSortowania, setKierunekSortowania] = useState("rosnaco");
 
+  // Gra czekająca na potwierdzenie usunięcia. null = modal zamknięty.
+  const [graDoUsuniecia, setGraDoUsuniecia] = useState(null);
+
+  // Każda zmiana kryteriów wraca na 1. stronę, żeby użytkownik
+  // nie wylądował na stronie, która po filtrowaniu już nie istnieje.
   function zmienSzukanaFraze(nowaFraza) {
     setSzukanaFraze(nowaFraza);
     setAktualnaStrona(1);
@@ -42,6 +51,8 @@ function App() {
     setAktualnaStrona(1);
   }
 
+  // Wartości wyliczane przy każdym renderze (nie trzymamy ich w stanie):
+  // 1) filtrowanie po tytule i kategorii, 2) sortowanie, 3) wycinek strony.
   const gryPrzefiltrowane = gry
     .filter((gra) =>
       gra.tytul.toLowerCase().includes(szukanaFraza.toLowerCase()),
@@ -51,6 +62,7 @@ function App() {
         wybranaKategoria === "wszystkie" || gra.kategoria === wybranaKategoria,
     );
 
+  // Kopia tablicy ([...]), bo sort() modyfikuje tablicę, na której działa.
   const gryPosortowane = [...gryPrzefiltrowane].sort((graA, graB) => {
     const wartoscA = graA[poleSortowania];
     const wartoscB = graB[poleSortowania];
@@ -71,6 +83,30 @@ function App() {
     poczatekWycinka + GIER_NA_STRONE,
   );
 
+  // Usuwanie: filter() zwraca nową tablicę bez usuwanej gry
+  // (stanu nie modyfikujemy bezpośrednio).
+  function potwierdzUsuniecie() {
+    setGry((poprzednieGry) =>
+      poprzednieGry.filter((gra) => gra.id !== graDoUsuniecia.id),
+    );
+
+    // Jeśli usunęliśmy ostatnią grę z ostatniej strony, ta strona przestaje
+    // istnieć – cofamy się na nową ostatnią stronę (minimum 1).
+    const nowaLiczbaStron = Math.max(
+      1,
+      Math.ceil((gryPosortowane.length - 1) / GIER_NA_STRONE),
+    );
+    if (aktualnaStrona > nowaLiczbaStron) {
+      setAktualnaStrona(nowaLiczbaStron);
+    }
+
+    setGraDoUsuniecia(null);
+  }
+
+  function anulujUsuniecie() {
+    setGraDoUsuniecia(null);
+  }
+
   return (
     <div>
       <h1>Kolekcja planszówek</h1>
@@ -84,16 +120,42 @@ function App() {
         kierunekSortowania={kierunekSortowania}
         ustawKierunekSortowania={zmienKierunekSortowania}
       />
-      {gryNaStronie.length === 0 ? (
+
+      {/* Pusty stan sprawdzamy na całej przefiltrowanej liście,
+          a nie na wycinku bieżącej strony. */}
+      {gryPosortowane.length === 0 ? (
         <PustaLista wyczyscFiltry={wyczyscFiltry} />
       ) : (
-        <ListaGier gry={gryNaStronie} />
+        <ListaGier gry={gryNaStronie} naUsun={setGraDoUsuniecia} />
       )}
+
       <Paginacja
         aktualnaStrona={aktualnaStrona}
         liczbaStron={liczbaStron}
         naZmianeStrony={setAktualnaStrona}
       />
+
+      {/* Kontekst nr 1 modala: potwierdzenie usunięcia */}
+      {graDoUsuniecia && (
+        <Modal tytul="Usuwanie gry" zamknij={anulujUsuniecie}>
+          <p>
+            Czy na pewno chcesz usunąć grę <strong>{graDoUsuniecia.tytul}</strong>?
+            Tej operacji nie można cofnąć.
+          </p>
+          <div className="modal-akcje">
+            <button type="button" onClick={anulujUsuniecie}>
+              Anuluj
+            </button>
+            <button
+              type="button"
+              className="przycisk-niebezpieczny"
+              onClick={potwierdzUsuniecie}
+            >
+              Usuń
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
