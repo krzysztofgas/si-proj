@@ -25,7 +25,10 @@ function KartaGry({ gra, naEdytuj, naUsun }) {
           <span>Kategoria:</span> <strong>{gra.kategoria}</strong>
         </p>
         <p>
-          <span>Liczba graczy:</span> <strong>{gra.minGraczy}–{gra.maxGraczy}</strong>
+          <span>Liczba graczy:</span>{" "}
+          <strong>
+            {gra.minGraczy}-{gra.maxGraczy}
+          </strong>
         </p>
         <p>
           <span>Ocena:</span> <strong>{gra.ocena}/10</strong>

@@ -50,8 +50,12 @@ function walidujGre(dane) {
     bledy.maxGraczy = "Podaj maksymalną liczbę graczy.";
   } else if (!czyLiczbaCalkowitaWZakresie(dane.maxGraczy, 1, 20)) {
     bledy.maxGraczy = "Liczba graczy musi być liczbą całkowitą od 1 do 20.";
-  } else if (!bledy.minGraczy && Number(dane.maxGraczy) < Number(dane.minGraczy)) {
-    bledy.maxGraczy = "Maksymalna liczba graczy nie może być mniejsza niż minimalna.";
+  } else if (
+    !bledy.minGraczy &&
+    Number(dane.maxGraczy) < Number(dane.minGraczy)
+  ) {
+    bledy.maxGraczy =
+      "Maksymalna liczba graczy nie może być mniejsza niż minimalna.";
   }
 
   if (czyPuste(dane.ocena)) {
@@ -199,7 +203,7 @@ function FormularzGry({ poczatkoweDane, naZapisz, naAnuluj, tekstPrzycisku }) {
 
       <div className="formularz-wiersz">
         <div className="formularz-pole">
-          <label htmlFor="pole-ocena">Ocena (1–10)</label>
+          <label htmlFor="pole-ocena">Ocena (1-10)</label>
           <input
             id="pole-ocena"
             name="ocena"

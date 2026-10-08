@@ -11,7 +11,10 @@ function PanelNarzedzi({
   ustawKierunekSortowania,
 }) {
   return (
-    <section className="panel-narzedzi" aria-label="Narzędzia wyszukiwania i sortowania">
+    <section
+      className="panel-narzedzi"
+      aria-label="Narzędzia wyszukiwania i sortowania"
+    >
       <div className="panel-pole">
         <input
           type="text"
@@ -24,7 +27,9 @@ function PanelNarzedzi({
       <div className="panel-pole">
         <select
           value={wybranaKategoria}
-          onChange={(zdarzenie) => ustawWybranaKategorie(zdarzenie.target.value)}
+          onChange={(zdarzenie) =>
+            ustawWybranaKategorie(zdarzenie.target.value)
+          }
         >
           <option value="wszystkie">Wszystkie kategorie</option>
           {KATEGORIE.map((kategoria) => (

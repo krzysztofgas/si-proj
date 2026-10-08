@@ -155,8 +155,9 @@ function App() {
       {graDoUsuniecia && (
         <Modal tytul="Usuwanie gry" zamknij={anulujUsuniecie}>
           <p>
-            Czy na pewno chcesz usunąć grę <strong>{graDoUsuniecia.tytul}</strong>?
-            Tej operacji nie można cofnąć.
+            Czy na pewno chcesz usunąć grę{" "}
+            <strong>{graDoUsuniecia.tytul}</strong>? Tej operacji nie można
+            cofnąć.
           </p>
           <div className="modal-akcje">
             <button type="button" onClick={anulujUsuniecie}>
