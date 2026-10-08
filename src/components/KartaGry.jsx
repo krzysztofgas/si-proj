@@ -1,7 +1,5 @@
 import Odznaka from "./Odznaka.jsx";
 
-// Karta pojedynczej gry. Sama niczego nie usuwa – po kliknięciu
-// "Usuń" wywołuje funkcję naUsun przekazaną z rodzica (App decyduje, co dalej).
 function KartaGry({ gra, naUsun }) {
   return (
     <div className="karta-gry">

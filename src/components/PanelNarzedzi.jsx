@@ -1,8 +1,5 @@
 import { KATEGORIE, POLA_SORTOWANIA } from "../data/slowniki.js";
 
-// Panel nad listą: wyszukiwarka, filtr kategorii i sortowanie.
-// Komponent nie trzyma własnego stanu – wartości i funkcje zmieniające
-// dostaje z App przez propsy (inputy kontrolowane).
 function PanelNarzedzi({
   szukanaFraza,
   ustawSzukanaFraze,
@@ -45,7 +42,6 @@ function PanelNarzedzi({
         ))}
       </select>
 
-      {/* Przycisk przełącza kierunek sortowania na przeciwny */}
       <button
         type="button"
         onClick={() =>
